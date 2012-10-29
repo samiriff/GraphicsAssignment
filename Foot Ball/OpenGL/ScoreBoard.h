@@ -9,11 +9,17 @@ private:
 	int numGoals;
 	GLfloat xco_ordinate, yco_ordinate;
 	GLfloat width, height;
+	string numGoalsConverted; // Converts goals from int to string
+	//stringstream data;
+	//data << numGoals;
+	//numGoalsConverted = data.str();
 public:
 	ScoreBoard(GLfloat x, GLfloat y);
 	inline void setNumOfGoals(int);
 	inline int getNumOfGoals(void);
+	void drawScore(char *, int, int, int);
 	void draw(void);
+	void appendScore(int);
 };
 ScoreBoard::ScoreBoard(GLfloat x, GLfloat y)
 {
@@ -42,4 +48,25 @@ void ScoreBoard::draw(void)
 	glVertex3f(5.0f, 3.0f, 0.0f); // The bottom right corner  
 	glEnd();
 }
+void ScoreBoard::appendScore(int numGoalsConverted)
+{
+		//string numGoalsConverted;
+		//stringstream data;
+	//data << numGoals;
+	 //numGoalsConverted = data.str();
+	 //string scoreBoard="SCORE : ";
+	 //scoreBoard.append(numGoalsConverted); 
+}
+void ScoreBoard::drawScore(char* string,int x,int y,int z) // Draw the score
+{
+	char *c;
+	glPushMatrix();	
+	glTranslatef(x, y+8,z);
+	glScalef(0.09f,-0.08f,z);
+	for (c=string; *c != '\0'; c++)
+	{
+		glutStrokeCharacter(GLUT_STROKE_ROMAN , *c);
+	}
+	glPopMatrix();
+}	
 #endif
