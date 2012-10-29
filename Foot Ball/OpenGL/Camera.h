@@ -5,7 +5,7 @@
 #include "Coordinates.h"
 #include "RotationAngle.h"
 #include "Constants.h"
-
+#include<gl/freeglut.h>
 using namespace std;
 
 //This class keeps track of the human player's point of view and display.
@@ -39,7 +39,6 @@ public:
 
 	friend ostream& operator<<(ostream& out, Camera &camera);
 };
-
 Camera::Camera()
 {
 	Coordinates coord;
@@ -166,5 +165,4 @@ ostream & operator<<(ostream& out, Camera &camera)
     cout << "Coordinates = " << camera.coordinates << "\tAngle = " << camera.rotation;
     return out;
 }
-
 #endif

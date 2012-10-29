@@ -1,20 +1,19 @@
 #include <cstdlib>
 #include <iostream>
-
+#include "stdafx.h"
 #include <GL/glut.h>
-
 #include "Camera.h"
-
+#include "FootBall_Field.h"
 using namespace std;
 
 Camera camera;				
-
+FootBallField fbField;
 
 //The following is only for testing purposes.
 //Positions of the cubes
 Coordinates cubesCoordinates[10];
-
-//set the positions of the cubes
+//
+////set the positions of the cubes
 void cubepositions (void) 
 { 
     for (int i=0;i<10;i++)
@@ -43,17 +42,9 @@ void cube (void)
 
 void init (void) 
 {
-	camera.initPrimitive();
-    cubepositions();
+//	camera.initPrimitive();
+//    cubepositions();
 }
-
-
-
-
-
-
-
-
 void enable (void) 
 {
     glEnable(GL_DEPTH_TEST); //enable the depth testing
@@ -64,28 +55,23 @@ void enable (void)
 }
 
 void display (void) {
-    glClearColor (0.0,0.0,0.0,1.0); 
+    glClearColor (1.0,1.0,1.0,0.0); 
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    enable();
-    
-    glLoadIdentity();    
-	camera.render();
-
-    glColor3f(1.0f, 1.0f, 1.0f);
-    cube(); 
-
-    glutSwapBuffers(); //swap the buffers
+    glMatrixMode(GL_MODELVIEW);
+	//enable();
+	glLoadIdentity();
+	glTranslatef(0.0f, 0.0f, -5.0f);
+	fbField.draw();
+	glutSwapBuffers(); // Flush the OpenGL buffers to the window 
 }
-
-void reshape (int w, int h) 
+void reshape (int width, int height) 
 {
-    glViewport (0, 0, (GLsizei)w, (GLsizei)h); //set the viewport to the current window specifications
+    glViewport(0, 0, (GLsizei)width, (GLsizei)height); // Set our viewport to the size of our window  
+	glMatrixMode(GL_PROJECTION); // Switch to the projection matrix so that we can manipulate how our scene is viewed  
+	glLoadIdentity(); // Reset the projection matrix to the identity matrix so that we don't get any artifacts (cleaning up)  
+	gluPerspective(60, (GLfloat)width / (GLfloat)height, 1.0, 10.0); // Set the Field of view angle (in degrees), the aspect ratio of our window, and the new and far planes  
+	glMatrixMode(GL_MODELVIEW); // Switch back to the model view matrix, so that we can start drawing shapes correctly  
 
-    glMatrixMode (GL_PROJECTION); //set the matrix to projection
-    glLoadIdentity ();
-    gluPerspective (90, (GLfloat)w / (GLfloat)h, 0.1, 100.0); //set the perspective (angle of sight, width, height, , depth)
-	//gluLookAt(0,0,5,0,0,0,0,1,0);
-    glMatrixMode (GL_MODELVIEW); //set the matrix back to model
 }
 
 void keyboard (unsigned char key, int x, int y) 
@@ -135,19 +121,15 @@ void tester()
 int main(int argc, char **argv)
 {
 	glutInit (&argc, argv);
-    glutInitDisplayMode (GLUT_DOUBLE | GLUT_DEPTH);
+	glutInitDisplayMode (GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize (500, 500);
     glutInitWindowPosition (100, 100);
-    glutCreateWindow ("A basic OpenGL Window");
-    init();
+    glutCreateWindow ("Jinkchak Football Game");
 
     glutDisplayFunc(display);
 	glutIdleFunc(display);
 	glutReshapeFunc(reshape);
-
-	glutKeyboardFunc (keyboard);
-	//tester();		
-    
+	glutKeyboardFunc(keyboard);
     glutMainLoop ();
 
 }

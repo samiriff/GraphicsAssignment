@@ -11,5 +11,5 @@
 #include <tchar.h>
 
 
-
+void sayHello(void);
 // TODO: reference additional headers your program requires here
