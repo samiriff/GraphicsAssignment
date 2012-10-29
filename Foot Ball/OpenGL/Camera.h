@@ -5,7 +5,8 @@
 #include "Coordinates.h"
 #include "RotationAngle.h"
 #include "Constants.h"
-#include<gl/freeglut.h>
+#include "FootBall_Field.h"
+
 using namespace std;
 
 //This class keeps track of the human player's point of view and display.
@@ -16,8 +17,12 @@ private:
 	Coordinates coordinates;
 	RotationAngle rotation;
 	float distanceFromCam;
-	GLuint displayListIndex;
 
+	//Indices of stationery objects in the display list
+	GLuint displayListIndex;
+	GLuint sunDisplayListIndex;
+	GLuint skyDisplayListIndex;
+	GLuint groundDisplayListIndex;
 	
 public:
 	Camera();
@@ -35,10 +40,11 @@ public:
 	void glTranslateScreenToCamera();
 
 	void initPrimitive();						//Goalkeeper's Image
-	void render();
+	void render(FootBallField footballField);
 
 	friend ostream& operator<<(ostream& out, Camera &camera);
 };
+
 Camera::Camera()
 {
 	Coordinates coord;
@@ -135,22 +141,26 @@ void Camera::glTranslateScreenToCamera()
 void Camera::initPrimitive()
 {
 	glEnable(GL_DEPTH_TEST); //enable the depth testing
-    glEnable(GL_LIGHTING); //enable the lighting
-    glEnable(GL_LIGHT0); //enable LIGHT0, our Diffuse Light
+    //glEnable(GL_LIGHTING); //enable the lighting
+    //glEnable(GL_LIGHT0); //enable LIGHT0, our Diffuse Light
     glEnable(GL_COLOR_MATERIAL);
     glShadeModel(GL_SMOOTH); //set the shader to smooth shader
+	
 
+	//Creating a cube for testing
 	displayListIndex = glGenLists(1); //set the cube list to Generate a List
-	glNewList(displayListIndex,GL_COMPILE_AND_EXECUTE); //compile the new list
+	glNewList(displayListIndex,GL_COMPILE); //compile the new list
 		glPushMatrix();
 		glColor3f(0.5, 0.5, 0.5);
-		glutSolidSphere(2, 20, 20); //draw the cube
+		glutSolidSphere(0.5, 20, 20); //draw the cube
 		glPopMatrix();
-    glEndList(); //end the list
+    glEndList(); //end the list	
 }
 
-void Camera::render()
-{
+void Camera::render(FootBallField footballField)
+{	
+	footballField.drawStationeryObjects();			//Render the sun, sky and ground which appear to be stationery wrt the camera
+
 	glTranslatef(0, 0, -distanceFromCam);
 	glRotate(X_AXIS);
 	glColor3f(1.0f, 0.0f, 0.0f);
@@ -165,4 +175,5 @@ ostream & operator<<(ostream& out, Camera &camera)
     cout << "Coordinates = " << camera.coordinates << "\tAngle = " << camera.rotation;
     return out;
 }
+
 #endif
