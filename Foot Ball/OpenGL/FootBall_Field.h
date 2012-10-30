@@ -8,8 +8,8 @@
 class FootBallField
 {
 private:
-	//Football * football;
-	//ScoreBoard *scoreBoard;
+	Football * football;
+	ScoreBoard *scoreBoard;
 	//GoalKeeper goalkeeper;
 
 	//Indices of stationery objects in the display list
@@ -39,8 +39,8 @@ public:
 };
 FootBallField::FootBallField()
 {
-	//this->football = new Football(1,2,3);
-	//this->scoreBoard = new ScoreBoard(2.0,5.0);
+	this->football = new Football(1,2,3);
+	this->scoreBoard = new ScoreBoard(2.0,5.0);
 	//this->goalkeeper = new GoalKeeper();
 
 	sunDisplayListIndex = -1;
@@ -56,9 +56,9 @@ void FootBallField::drawStationeryObjects()
 	//drawMarkings();
 	//drawGoalPost();
 	//goalPost.draw();
-	//scoreBoard->draw();
+	scoreBoard->draw();
 	//goalKeeper.draw();
-	//football->draw();
+	football->draw();
 }
 
 void FootBallField::drawMovingObjects()

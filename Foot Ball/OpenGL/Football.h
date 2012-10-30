@@ -25,8 +25,8 @@ Football::Football(float x, float y, float z)
 }
 void Football::draw()
 {
-	glColor3f(0.3,0.2,0.5);
+	glColor3f(1.0,1.0,0.0);
 	glTranslatef(0,-1,0.0);
-	glutSolidSphere(0.5,55,10);
+	glutWireSphere(0.4, 12, 12);
 }
 #endif
