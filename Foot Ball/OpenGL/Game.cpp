@@ -12,6 +12,9 @@ using namespace std;
 Camera camera;				
 FootBallField fbField;
 
+
+
+
 //The following is only for testing purposes.
 
 // ---------------------------------CUBES ONLY FOR TESTING...REMOVE LATER ---------------------------------------------
@@ -84,9 +87,12 @@ void display (void)
 	camera.render(fbField);
 	fbField.drawMovingObjects();
 
-	glColor3f(1, 1, 1);
-	cube();
+	//glColor3f(1, 1, 1);
+	//cube();
+
 	glutSwapBuffers(); // Flush the OpenGL buffers to the window 
+
+	fbField.update();
 }
 
 void reshape (int width, int height) 
@@ -99,8 +105,18 @@ void reshape (int width, int height)
 
 }
 
-void keyboard (unsigned char key, int x, int y) 
+void createFootballTrajectory()
 {
+	Coordinates footballVelocity;
+	RotationAngle footballAngularVelocity;
+	footballVelocity.set(Z_AXIS, -0.05);
+	footballAngularVelocity.setTheta(X_AXIS, -1);
+
+	fbField.getFootball()->setInMotion(footballVelocity, footballAngularVelocity);
+}
+
+void keyboard (unsigned char key, int x, int y) 
+{	
 	switch(key)
 	{
 	case 'q':
@@ -126,6 +142,9 @@ void keyboard (unsigned char key, int x, int y)
 		break;
 	case 'a':
     	camera.slideLeft();
+		break;
+	case ' ':		
+		createFootballTrajectory();
 		break;
 	case 27:
     	exit(0);

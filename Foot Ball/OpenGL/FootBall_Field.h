@@ -35,11 +35,16 @@ public:
 	void drawStationeryObjects(void);
 	void drawMovingObjects();
 
+	//Required to update relative motion of any object in the football field
+	void update();
+
+	Football *getFootball();
+
 	~FootBallField();
 };
 FootBallField::FootBallField()
 {
-	this->football = new Football(1,2,3);
+	this->football = new Football(0, -1, 0);
 	this->scoreBoard = new ScoreBoard(2.0,5.0);
 	//this->goalkeeper = new GoalKeeper();
 
@@ -56,14 +61,26 @@ void FootBallField::drawStationeryObjects()
 	//drawMarkings();
 	//drawGoalPost();
 	//goalPost.draw();
-	scoreBoard->draw();
+	//scoreBoard->draw();
 	//goalKeeper.draw();
-	football->draw();
+
+	
 }
 
 void FootBallField::drawMovingObjects()
 {
-	drawGoalPost();
+	football->draw();
+	drawGoalPost();	
+}
+
+void FootBallField::update()
+{
+	football->update();
+}
+
+Football *FootBallField::getFootball()
+{
+	return football;
 }
 
 

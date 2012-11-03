@@ -164,7 +164,7 @@ void Camera::render(FootBallField footballField)
 	glTranslatef(0, 0, -distanceFromCam);
 	glRotate(X_AXIS);
 	glColor3f(1.0f, 0.0f, 0.0f);
-	glCallList(displayListIndex);
+	//glCallList(displayListIndex);
 
 	glRotate(Y_AXIS);
 	glTranslateScreenToCamera();    
