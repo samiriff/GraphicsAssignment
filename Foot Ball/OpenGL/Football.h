@@ -1,6 +1,8 @@
 #ifndef _FOOTBALL_H
 #define _FOOTBALL_H
 
+#include <cmath>
+
 #include "Coordinates.h"
 #include "RotationAngle.h"
 #include "Constants.h"
@@ -65,15 +67,27 @@ void Football::rotateBy(float angle, AxisType aboutAxis)
 
 void Football::update()
 {
+	static float alpha = 0.5;
+	static bool alphaIncreasing = true;
+
 	if(isMoving)
 	{
-		moveBy(velocity.get(X_AXIS), X_AXIS);
-		moveBy(velocity.get(Y_AXIS), Y_AXIS);
+		//moveBy(velocity.get(X_AXIS), X_AXIS);
+		//moveBy(velocity.get(Y_AXIS), Y_AXIS);
+		//moveBy(velocity.get(Z_AXIS), Z_AXIS);
+
+		float alphaRadian = alpha / 180.0 * 3.1415;
+		moveBy(sin(alphaRadian) / 10.0, Y_AXIS);
 		moveBy(velocity.get(Z_AXIS), Z_AXIS);
+
+		cout << alpha << "\t" << sin(alpha) << '\t';
+		cout << coordinates.get(Y_AXIS) << endl;
 
 		rotateBy(angularVelocity.getTheta(X_AXIS), X_AXIS);
 		rotateBy(angularVelocity.getTheta(Y_AXIS), Y_AXIS);
 		rotateBy(angularVelocity.getTheta(Z_AXIS), Z_AXIS);
+
+		alpha = fmod(alpha + 1, 360);		
 	}
 }
 
@@ -83,7 +97,7 @@ void Football::draw()
 	glColor3f(1.0,1.0,0.0);
 	//glTranslatef(0,-1,0.0);
 	glPushMatrix();
-		glTranslatef(coordinates.get(X_AXIS), coordinates.get(Y_AXIS) + 1, coordinates.get(Z_AXIS));
+		glTranslatef(coordinates.get(X_AXIS), coordinates.get(Y_AXIS), coordinates.get(Z_AXIS));
 
 		glRotatef(rotation.getTheta(X_AXIS), 1, 0, 0);
 		glRotatef(rotation.getTheta(Y_AXIS), 0, 1, 0);

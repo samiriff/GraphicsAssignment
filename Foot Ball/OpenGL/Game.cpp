@@ -110,7 +110,7 @@ void createFootballTrajectory()
 	Coordinates footballVelocity;
 	RotationAngle footballAngularVelocity;
 	footballVelocity.set(Z_AXIS, -0.05);
-	footballAngularVelocity.setTheta(X_AXIS, -1);
+	footballAngularVelocity.setTheta(X_AXIS, -5);
 
 	fbField.getFootball()->setInMotion(footballVelocity, footballAngularVelocity);
 }
