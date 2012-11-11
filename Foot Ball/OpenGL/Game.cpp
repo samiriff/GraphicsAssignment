@@ -69,7 +69,7 @@ void enable (void)
 {
     glEnable(GL_DEPTH_TEST); //enable the depth testing
     glEnable(GL_LIGHTING); //enable the lighting
-    glEnable(GL_LIGHT0); //enable LIGHT0, our Diffuse Light
+	glEnable(GL_LIGHT0); //enable LIGHT0, our Diffuse Light
     glEnable(GL_COLOR_MATERIAL);
     glShadeModel(GL_SMOOTH); //set the shader to smooth shader
 }
@@ -80,7 +80,7 @@ void display (void)
 	glClearColor (0.0,0.0,0.0,0.0); 
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
-	//enable();
+	enable();
 
 	glLoadIdentity();
 	glTranslatef(0.0f, 0.0f, -5.0f);
@@ -107,10 +107,12 @@ void reshape (int width, int height)
 
 void createFootballTrajectory()
 {
-	RotationAngle footballAngularVelocity;
-	footballAngularVelocity.setTheta(X_AXIS, -5);
+	RotationAngle footballAngularVelocity(-5, -2, -1);
 
-	fbField.getFootball()->setInMotion(footballAngularVelocity, 150, 2, 55, 3, 0.1);
+	fbField.getVelocitySlider()->stopMotion();
+	fbField.getAngleSlider()->stopMotion();
+	fbField.getFootball()->setInMotion(footballAngularVelocity, fbField.getVelocitySlider()->getInitialVelocity(), 2, fbField.getAngleSlider()->getInitialAngle(), 3, 0.1);
+
 }
 
 void keyboard (unsigned char key, int x, int y) 
@@ -143,6 +145,12 @@ void keyboard (unsigned char key, int x, int y)
 		break;
 	case ' ':		
 		createFootballTrajectory();
+		break;
+	case ',':
+		fbField.getVelocitySlider()->toggleMotion();
+		break;
+	case '.':
+		fbField.getAngleSlider()->toggleMotion();
 		break;
 	case 27:
     	exit(0);

@@ -1,8 +1,12 @@
 #ifndef _FOOTBALL_FIELD_H
 #define _FOOTBALL_FIELD_H
+
 #include "Football.h"
 #include "GoalKeeper.h"
 #include "ScoreBoard.h"
+#include "HorizontalSlider.h"
+#include "VerticalSlider.h"
+
 //This class keeps track of all the objects in the Game World, including the Football, and textures of the field, etc.
 
 class FootBallField
@@ -10,8 +14,9 @@ class FootBallField
 private:
 	Football * football;
 	ScoreBoard *scoreBoard;
-	//GoalKeeper goalkeeper;
-
+	HorizontalSlider *initialVelocitySlider;
+	VerticalSlider *initialAngleSlider;
+	
 	//Indices of stationery objects in the display list
 	GLuint sunDisplayListIndex;
 	GLuint skyDisplayListIndex;
@@ -39,6 +44,8 @@ public:
 	void update();
 
 	Football *getFootball();
+	HorizontalSlider *getVelocitySlider();
+	VerticalSlider *getAngleSlider();
 
 	~FootBallField();
 };
@@ -46,6 +53,8 @@ FootBallField::FootBallField()
 {
 	this->football = new Football(0, 0, 0);
 	this->scoreBoard = new ScoreBoard(2.0,5.0);
+	this->initialVelocitySlider = new HorizontalSlider(2);
+	this->initialAngleSlider = new VerticalSlider();
 	//this->goalkeeper = new GoalKeeper();
 
 	sunDisplayListIndex = -1;
@@ -64,7 +73,8 @@ void FootBallField::drawStationeryObjects()
 	//scoreBoard->draw();
 	//goalKeeper.draw();
 
-	
+	initialVelocitySlider->draw();
+	initialAngleSlider->draw();
 }
 
 void FootBallField::drawMovingObjects()
@@ -76,11 +86,24 @@ void FootBallField::drawMovingObjects()
 void FootBallField::update()
 {
 	football->update();
+	initialVelocitySlider->update();
+	initialAngleSlider->update();
 }
 
 Football *FootBallField::getFootball()
 {
 	return football;
+}
+
+
+HorizontalSlider *FootBallField::getVelocitySlider()
+{
+	return initialVelocitySlider;
+}
+
+VerticalSlider *FootBallField::getAngleSlider()
+{
+	return initialAngleSlider;
 }
 
 

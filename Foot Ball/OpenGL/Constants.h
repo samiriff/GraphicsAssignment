@@ -8,5 +8,8 @@ enum AxisType
 	Z_AXIS
 };
 
+static const float MAXIMUM_VELOCITY = 200;
+static const float MAXIMUM_ANGLE = 90;
+
 
 #endif

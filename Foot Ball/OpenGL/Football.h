@@ -27,7 +27,7 @@ private:
 	float rateOfChangeOfTime;
 
 	
-	void moveBy(float distance, AxisType alongAxis);
+	
 	void rotateBy(float angle, AxisType aboutAxis);
 
 public:
@@ -37,7 +37,9 @@ public:
 	void stopMotion();
 
 	void update();
-	//To be filled
+	
+
+	void moveBy(float distance, AxisType alongAxis);
 
 };
 

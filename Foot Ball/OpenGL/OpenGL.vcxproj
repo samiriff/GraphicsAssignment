@@ -83,12 +83,14 @@
     <ClInclude Include="Coordinates.h" />
     <ClInclude Include="Football.h" />
     <ClInclude Include="GoalKeeper.h" />
+    <ClInclude Include="HorizontalSlider.h" />
     <ClInclude Include="RotationAngle.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="FootBall_Field.h" />
+    <ClInclude Include="VerticalSlider.h" />
     <ClInclude Include="WorldObjects.h" />
   </ItemGroup>
   <ItemGroup>
