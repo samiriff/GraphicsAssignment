@@ -107,12 +107,10 @@ void reshape (int width, int height)
 
 void createFootballTrajectory()
 {
-	Coordinates footballVelocity;
 	RotationAngle footballAngularVelocity;
-	footballVelocity.set(Z_AXIS, -0.05);
 	footballAngularVelocity.setTheta(X_AXIS, -5);
 
-	fbField.getFootball()->setInMotion(footballVelocity, footballAngularVelocity);
+	fbField.getFootball()->setInMotion(footballAngularVelocity, 150, 2, 55, 3, 0.1);
 }
 
 void keyboard (unsigned char key, int x, int y) 

@@ -2,6 +2,7 @@
 #define _FOOTBALL_H
 
 #include <cmath>
+#include <GL/glut.h>
 
 #include "Coordinates.h"
 #include "RotationAngle.h"
@@ -15,8 +16,15 @@ private:
 	Coordinates coordinates;
 	RotationAngle rotation;
 	bool isMoving;
+
 	Coordinates velocity;
 	RotationAngle angularVelocity;
+
+	float initialVelocity;
+	float rateOfDecreaseOfVelocity;
+	float projectionAngle;
+	float rateOfDecreaseOfProjAngle;
+	float rateOfChangeOfTime;
 
 	
 	void moveBy(float distance, AxisType alongAxis);
@@ -25,9 +33,8 @@ private:
 public:
 	Football(float x, float y, float z);
 	void draw(void);
-	void setInMotion(Coordinates v, RotationAngle omega);
+	void setInMotion(RotationAngle omega, float v0, float dv, float alpha, float da, float dt);
 	void stopMotion();
-
 
 	void update();
 	//To be filled
@@ -43,11 +50,16 @@ Football::Football(float x, float y, float z)
 	isMoving = false;
 }
 
-void Football::setInMotion(Coordinates v, RotationAngle omega)
+void Football::setInMotion(RotationAngle omega, float v0, float dv, float alpha, float da, float dt)
 {
 	isMoving = true;
-	velocity = v;
 	angularVelocity = omega;
+
+	initialVelocity = v0;
+	rateOfDecreaseOfVelocity = dv;
+	projectionAngle = alpha;
+	rateOfDecreaseOfProjAngle = da;
+	rateOfChangeOfTime = dt;
 }
 
 void Football::stopMotion()
@@ -67,27 +79,36 @@ void Football::rotateBy(float angle, AxisType aboutAxis)
 
 void Football::update()
 {
-	static float alpha = 0.5;
-	static bool alphaIncreasing = true;
+	static Coordinates currentOrigin(coordinates);
+	static float time = 0;
 
-	if(isMoving)
+	if(isMoving && initialVelocity > 0)
 	{
-		//moveBy(velocity.get(X_AXIS), X_AXIS);
-		//moveBy(velocity.get(Y_AXIS), Y_AXIS);
-		//moveBy(velocity.get(Z_AXIS), Z_AXIS);
+		if(coordinates.get(Y_AXIS) < 0)
+		{
+			initialVelocity -= 2;
+			projectionAngle -= 4;
+			currentOrigin.set(Z_AXIS, coordinates.get(Z_AXIS));
+			cout << "Initial V = " << initialVelocity << "\tAlpha = " << projectionAngle << endl;
+			cout << "Current Origin = " << currentOrigin << endl;
+			time = 0;
+			coordinates.set(Y_AXIS, 0);
+		}
 
-		float alphaRadian = alpha / 180.0 * 3.1415;
-		moveBy(sin(alphaRadian) / 10.0, Y_AXIS);
-		moveBy(velocity.get(Z_AXIS), Z_AXIS);
+		float alphaRadian = projectionAngle / 180.0 * 3.1415;
+		float verticalDisp = (initialVelocity * time * sin(alphaRadian) - 0.5 * 9.8 * time * time);
+		float horizontalDisp = (initialVelocity * time * cos(alphaRadian));
 
-		cout << alpha << "\t" << sin(alpha) << '\t';
-		cout << coordinates.get(Y_AXIS) << endl;
+		coordinates.set(Y_AXIS, verticalDisp / 100.0);
+		coordinates.set(Z_AXIS, currentOrigin.get(Z_AXIS) - horizontalDisp / 100.0);				
 
 		rotateBy(angularVelocity.getTheta(X_AXIS), X_AXIS);
 		rotateBy(angularVelocity.getTheta(Y_AXIS), Y_AXIS);
 		rotateBy(angularVelocity.getTheta(Z_AXIS), Z_AXIS);
 
-		alpha = fmod(alpha + 1, 360);		
+		time += 0.2;
+
+		cout << "Time = " << time << endl;
 	}
 }
 

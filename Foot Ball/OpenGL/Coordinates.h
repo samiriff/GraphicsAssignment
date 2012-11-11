@@ -16,6 +16,7 @@ private:
 public:
 	Coordinates();
 	Coordinates(float x, float y, float z);
+	Coordinates(Coordinates &coord);
 	
 	float get(AxisType axisType);
 
@@ -34,6 +35,13 @@ Coordinates::Coordinates(float x, float y, float z)
 	coords[X_AXIS] = x;
 	coords[Y_AXIS] = y;
 	coords[Z_AXIS] = z;
+}
+
+Coordinates::Coordinates(Coordinates &coord)
+{
+	coords[X_AXIS] = coord.coords[X_AXIS];
+	coords[Y_AXIS] = coord.coords[Y_AXIS];
+	coords[Z_AXIS] = coord.coords[Z_AXIS];
 }
 
 
