@@ -1,12 +1,13 @@
 #include <cstdlib>
 #include <iostream>
+#include <Windows.h>
 #include "stdafx.h"
 #include <GL/glut.h>
 #include "Camera.h"
 #include "FootBall_Field.h"
 using namespace std;
 
-#define FULL_SCREEN 1
+#define FULL_SCREEN 0
 
 
 Camera camera;				
@@ -80,15 +81,15 @@ void display (void)
 	glClearColor (0.0,0.0,0.0,0.0); 
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
-	enable();
+	//enable();
 
 	glLoadIdentity();
 	glTranslatef(0.0f, 0.0f, -5.0f);
 	camera.render(fbField);
 	fbField.drawMovingObjects();
 
-	//glColor3f(1, 1, 1);
-	//cube();
+	glColor3f(1, 1, 1);
+	cube();
 
 	glutSwapBuffers(); // Flush the OpenGL buffers to the window 
 

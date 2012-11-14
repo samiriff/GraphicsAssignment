@@ -3,7 +3,7 @@
 
 #include <cmath>
 #include <GL/glut.h>
-
+#include<Windows.h>
 #include "Coordinates.h"
 #include "RotationAngle.h"
 #include "Constants.h"
@@ -95,6 +95,14 @@ void Football::update()
 			cout << "Current Origin = " << currentOrigin << endl;
 			time = 0;
 			coordinates.set(Y_AXIS, 0);
+		}
+
+		if(coordinates.get(Z_AXIS) <= -100)
+		{
+			isMoving = false;
+			
+			PlaySound("", NULL, SND_FILENAME | SND_ASYNC);
+			return;
 		}
 
 		float alphaRadian = projectionAngle / 180.0 * 3.1415;

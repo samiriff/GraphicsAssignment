@@ -82,7 +82,6 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Coordinates.h" />
     <ClInclude Include="Football.h" />
-    <ClInclude Include="GoalKeeper.h" />
     <ClInclude Include="HorizontalSlider.h" />
     <ClInclude Include="RotationAngle.h" />
     <ClInclude Include="Score.h" />

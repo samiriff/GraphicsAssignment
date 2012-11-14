@@ -45,9 +45,6 @@
     <ClInclude Include="FootBall_Field.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GoalKeeper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Score.h">
       <Filter>Header Files</Filter>
     </ClInclude>
