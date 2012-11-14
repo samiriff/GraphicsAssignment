@@ -7,6 +7,7 @@
 #include "Coordinates.h"
 #include "RotationAngle.h"
 #include "Constants.h"
+#pragma comment(lib, "winmm.lib")
 
 //This class keeps track of the Football's movements and detects collisions and controls the physics of the ball
 
@@ -101,7 +102,10 @@ void Football::update()
 		{
 			isMoving = false;
 			
-			PlaySound("", NULL, SND_FILENAME | SND_ASYNC);
+			LPCWSTR str = TEXT("BOMB.WAV");
+			PlaySound(str, NULL, SND_ASYNC);
+			 str = TEXT("APPLAUSE.WAV");
+			PlaySound(str, NULL, SND_ASYNC);
 			return;
 		}
 
