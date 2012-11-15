@@ -5,11 +5,12 @@
 #include <GL/glut.h>
 #include "Camera.h"
 #include "FootBall_Field.h"
+#include "ScoreBoard.h"
 using namespace std;
 
 #define FULL_SCREEN 0
 
-
+ScoreBoard s(100,100);
 Camera camera;				
 FootBallField fbField;
 
@@ -94,6 +95,8 @@ void display (void)
 	glutSwapBuffers(); // Flush the OpenGL buffers to the window 
 
 	fbField.update();
+	s.drawScore("SCORE: ", 100,100,100);
+
 }
 
 void reshape (int width, int height) 

@@ -1,6 +1,11 @@
 #ifndef _SCORE_H
 #define _SCORE_H
-
+#include<string.h>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include<stdlib.h>
+using namespace std;
 //This class keeps track of the Human player's score.
 
 class ScoreBoard
@@ -9,11 +14,13 @@ private:
 	int numGoals;
 	GLfloat xco_ordinate, yco_ordinate;
 	GLfloat width, height;
-	string numGoalsConverted; // Converts goals from int to string
-	//stringstream data;
-	//data << numGoals;
-	//numGoalsConverted = data.str();
-public:
+	string numGoalsConverted;
+	//int intScore;
+	
+    
+	 
+	
+	public:
 	ScoreBoard(GLfloat x, GLfloat y);
 	inline void setNumOfGoals(int);
 	inline int getNumOfGoals(void);
@@ -28,6 +35,10 @@ ScoreBoard::ScoreBoard(GLfloat x, GLfloat y)
 	yco_ordinate = y;
 	width = 0.5;
 	height = 0.3;
+	//char *intStr;
+	char intStr[10];
+	_itoa(numGoals,intStr,10);
+	string score = string(intStr);
 }
 void ScoreBoard::setNumOfGoals(int goals)
 {
@@ -50,12 +61,7 @@ void ScoreBoard::draw(void)
 }
 void ScoreBoard::appendScore(int numGoalsConverted)
 {
-		//string numGoalsConverted;
-		//stringstream data;
-	//data << numGoals;
-	 //numGoalsConverted = data.str();
-	 //string scoreBoard="SCORE : ";
-	 //scoreBoard.append(numGoalsConverted); 
+		
 }
 void ScoreBoard::drawScore(char* string,int x,int y,int z) // Draw the score
 {
