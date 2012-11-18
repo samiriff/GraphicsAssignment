@@ -41,6 +41,9 @@ public:
 
 	void initPrimitive();						//Goalkeeper's Image
 	void render(FootBallField footballField);
+	void render();
+
+	void reset();
 
 	friend ostream& operator<<(ostream& out, Camera &camera);
 };
@@ -168,6 +171,25 @@ void Camera::render(FootBallField footballField)
 
 	glRotate(Y_AXIS);
 	glTranslateScreenToCamera();    
+}
+
+void Camera::render()
+{
+	glTranslatef(0, 0, -distanceFromCam);
+	glRotate(X_AXIS);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	//glCallList(displayListIndex);
+
+	glRotate(Y_AXIS);
+	glTranslateScreenToCamera();    
+}
+
+void Camera::reset()
+{
+	Coordinates c;
+	coordinates = c;
+	RotationAngle r;
+	rotation = r;
 }
 
 ostream & operator<<(ostream& out, Camera &camera)

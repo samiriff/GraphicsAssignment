@@ -6,15 +6,16 @@
 #include "Camera.h"
 #include "FootBall_Field.h"
 #include "ScoreBoard.h"
+#include "GraphicString.h"
 using namespace std;
 
-#define FULL_SCREEN 0
+#define FULL_SCREEN 1
 
-ScoreBoard s(100,100);
 Camera camera;				
 FootBallField fbField;
 
-
+bool isIntro = true;
+GraphicString *graphicString;
 
 
 //The following is only for testing purposes.
@@ -37,6 +38,13 @@ void init (void)
 {
 	camera.initPrimitive();
     cubepositions();
+
+	string pool = "Code Kshetra Inc. \nPresents\nA game that you've never played before\n\
+		and one that you may never play again\nSay Hello to\nTHE FOOTBALL GAME\nPress 'o' to continue...\
+		\nDeveloped by\nSamir, Satvik and Vaishakh";
+	graphicString = new GraphicString(pool);	
+	Coordinates c(-100, 0, 0);
+	graphicString->append(c);
 }
 
 
@@ -45,15 +53,15 @@ void cube (void)
 {
 	static float angle = 0;
 
-    for (int i = -1; i < 10; i++)
+	for (int i = -1; i < 10; i++)
     {
 		glPushMatrix();		
-			glTranslated(-cubesCoordinates[i+1].get(X_AXIS), 0, -cubesCoordinates[i+1].get(Z_AXIS)); //translate the cube
+			glTranslated(-cubesCoordinates[i+1].get(X_AXIS) - 4, 10, -cubesCoordinates[i+1].get(Z_AXIS)); //translate the cube
 			glRotatef(angle, 1, 0, 0);
 			glutSolidCube(2); //draw the cube
 		glPopMatrix();
     }
-
+	
 	angle += 1;
 }
 
@@ -76,6 +84,37 @@ void enable (void)
     glShadeModel(GL_SMOOTH); //set the shader to smooth shader
 }
 
+void displayIntro()
+{	
+	static Coordinates coordinates;
+
+	camera.render();
+	glPushMatrix();
+		glTranslatef(-25, 25, -75);
+		glTranslatef(coordinates.get(X_AXIS), coordinates.get(Y_AXIS), coordinates.get(Z_AXIS));
+		glScalef(0.05, 0.05, 0.05);
+		graphicString->draw();
+	glPopMatrix();
+
+	static float toAppend = 0;
+	if(toAppend >= 10)
+	{
+		graphicString->append();
+		toAppend = 0;
+	}
+	toAppend += 0.5;
+
+	static float projectionAngle = 100.0;
+
+	float alphaRadian = projectionAngle / 180.0 * 3.1415;		
+	float verticalDisp = 75 * sin(alphaRadian);
+	float horizontalDisp = cos(alphaRadian);
+	projectionAngle += 6;
+
+	coordinates.set(Y_AXIS, verticalDisp / 10.0);	
+	coordinates.set(X_AXIS, horizontalDisp);					
+}
+
 void display (void) 
 {
     glClearColor (1.0,1.0,1.0,0.0); 
@@ -86,17 +125,28 @@ void display (void)
 
 	glLoadIdentity();
 	glTranslatef(0.0f, 0.0f, -5.0f);
-	camera.render(fbField);
-	fbField.drawMovingObjects();
 
-	glColor3f(1, 1, 1);
-	cube();
+	if(isIntro)
+	{
+		displayIntro();	
+		if(graphicString->isPoolNewLine())
+			camera.reset();
+		camera.slideRight();
+	}
+	else
+	{
+		camera.render(fbField);
+		fbField.drawMovingObjects();
+		
+		glColor3f(1, 1, 1);
+		cube();
+	}
+
+	
 
 	glutSwapBuffers(); // Flush the OpenGL buffers to the window 
 
 	fbField.update();
-	s.drawScore("SCORE: ", 100,100,100);
-
 }
 
 void reshape (int width, int height) 
@@ -155,6 +205,12 @@ void keyboard (unsigned char key, int x, int y)
 		break;
 	case '.':
 		fbField.getAngleSlider()->toggleMotion();
+		break;
+	case 'r':
+		fbField.getFootball()->reset();
+		break;
+	case 'o':
+		isIntro = false;
 		break;
 	case 27:
     	exit(0);

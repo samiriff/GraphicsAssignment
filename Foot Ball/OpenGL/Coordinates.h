@@ -16,7 +16,7 @@ private:
 public:
 	Coordinates();
 	Coordinates(float x, float y, float z);
-	Coordinates(Coordinates &coord);
+	Coordinates(const Coordinates &coord);
 	
 	float get(AxisType axisType);
 
@@ -37,7 +37,7 @@ Coordinates::Coordinates(float x, float y, float z)
 	coords[Z_AXIS] = z;
 }
 
-Coordinates::Coordinates(Coordinates &coord)
+Coordinates::Coordinates(const Coordinates &coord)
 {
 	coords[X_AXIS] = coord.coords[X_AXIS];
 	coords[Y_AXIS] = coord.coords[Y_AXIS];

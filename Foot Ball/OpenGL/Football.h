@@ -2,13 +2,17 @@
 #define _FOOTBALL_H
 
 #include <cmath>
+#include <iostream>
 #include <GL/glut.h>
 #include<Windows.h>
 #include "Coordinates.h"
 #include "RotationAngle.h"
 #include "Constants.h"
+#include "ScoreBoard.h"
+#include "Wind.h"
 #pragma comment(lib, "winmm.lib")
 
+using namespace std;
 //This class keeps track of the Football's movements and detects collisions and controls the physics of the ball
 
 class Football
@@ -27,30 +31,34 @@ private:
 	float rateOfDecreaseOfProjAngle;
 	float rateOfChangeOfTime;
 
-	
+	ScoreBoard *scoreBoard;
+	Wind *wind;
 	
 	void rotateBy(float angle, AxisType aboutAxis);
 
 public:
-	Football(float x, float y, float z);
+	Football(float x, float y, float z, ScoreBoard *s);
 	void draw(void);
 	void setInMotion(RotationAngle omega, float v0, float dv, float alpha, float da, float dt);
 	void stopMotion();
 
 	void update();
-	
+	void reset();
 
 	void moveBy(float distance, AxisType alongAxis);
 
 };
 
-Football::Football(float x, float y, float z)
+Football::Football(float x, float y, float z, ScoreBoard *s)
 {
 	coordinates.set(X_AXIS, x);
 	coordinates.set(Y_AXIS, y);
 	coordinates.set(Z_AXIS, z);
 
 	isMoving = false;
+	scoreBoard = s;
+
+	wind = new Wind(10, 0.02, true);
 }
 
 void Football::setInMotion(RotationAngle omega, float v0, float dv, float alpha, float da, float dt)
@@ -84,6 +92,9 @@ void Football::update()
 {
 	static Coordinates currentOrigin(coordinates);
 	static float time = 0;
+	
+	if(initialVelocity < 0 || projectionAngle < 0)
+		isMoving = false;
 
 	if(isMoving && initialVelocity > 0)
 	{
@@ -98,7 +109,7 @@ void Football::update()
 			coordinates.set(Y_AXIS, 0);
 		}
 
-		if(coordinates.get(Z_AXIS) <= -100)
+		if(coordinates.get(Z_AXIS) <= MAXIMUM_DEPTH)
 		{
 			isMoving = false;
 			
@@ -106,6 +117,15 @@ void Football::update()
 			PlaySound(str, NULL, SND_ASYNC);
 			 str = TEXT("APPLAUSE.WAV");
 			PlaySound(str, NULL, SND_ASYNC);
+
+			//Check if ball is within the bounding box of goalpost
+			if(coordinates.get(X_AXIS) <= 8.0 && coordinates.get(X_AXIS) >= -6.5)
+				scoreBoard->setNumOfGoals(scoreBoard->getNumOfGoals() + 1);
+
+			currentOrigin.set(X_AXIS, 0);
+			currentOrigin.set(Y_AXIS, 0);
+			currentOrigin.set(Z_AXIS, 0);
+
 			return;
 		}
 
@@ -113,6 +133,8 @@ void Football::update()
 		float verticalDisp = (initialVelocity * time * sin(alphaRadian) - 0.5 * 9.8 * time * time);
 		float horizontalDisp = (initialVelocity * time * cos(alphaRadian));
 
+		cout << "x = " << coordinates.get(X_AXIS) << "y = " << coordinates.get(Y_AXIS) << endl;;
+		coordinates.set(X_AXIS, wind->getSpeed());
 		coordinates.set(Y_AXIS, verticalDisp / 100.0);
 		coordinates.set(Z_AXIS, currentOrigin.get(Z_AXIS) - horizontalDisp / 100.0);				
 
@@ -121,9 +143,19 @@ void Football::update()
 		rotateBy(angularVelocity.getTheta(Z_AXIS), Z_AXIS);
 
 		time += 0.2;
+		wind->update();
 
-		cout << "Time = " << time << endl;
+		//cout << "Time = " << time << endl;
 	}
+}
+
+void Football::reset()
+{
+	coordinates.set(X_AXIS, 0);
+	coordinates.set(Y_AXIS, 0);
+	coordinates.set(Z_AXIS, 0);
+
+	isMoving = false;
 }
 
 

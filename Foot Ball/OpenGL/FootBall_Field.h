@@ -51,8 +51,8 @@ public:
 };
 FootBallField::FootBallField()
 {
-	this->football = new Football(0, 0, 0);
-	this->scoreBoard = new ScoreBoard(2.0,5.0);
+	this->scoreBoard = new ScoreBoard(2.0, 5.0);
+	this->football = new Football(0, 0, 0, scoreBoard);	
 	this->initialVelocitySlider = new HorizontalSlider(2);
 	this->initialAngleSlider = new VerticalSlider();
 	//this->goalkeeper = new GoalKeeper();
@@ -66,6 +66,8 @@ void FootBallField::drawStationeryObjects()
 {
 	drawSun();
 	drawGroundAndSky();
+	scoreBoard->draw();
+	//scoreBoard->drawScore("SCORE: ", 100,100,100);
 
 	//drawMarkings();
 	//drawGoalPost();

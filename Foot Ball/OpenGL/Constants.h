@@ -11,5 +11,6 @@ enum AxisType
 static const float MAXIMUM_VELOCITY = 200;
 static const float MAXIMUM_ANGLE = 90;
 
+static const float MAXIMUM_DEPTH = -100;
 
 #endif

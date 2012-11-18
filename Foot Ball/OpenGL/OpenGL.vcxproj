@@ -38,7 +38,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -82,6 +82,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Coordinates.h" />
     <ClInclude Include="Football.h" />
+    <ClInclude Include="GraphicString.h" />
     <ClInclude Include="HorizontalSlider.h" />
     <ClInclude Include="RotationAngle.h" />
     <ClInclude Include="Score.h" />
@@ -90,6 +91,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="FootBall_Field.h" />
     <ClInclude Include="VerticalSlider.h" />
+    <ClInclude Include="Wind.h" />
     <ClInclude Include="WorldObjects.h" />
   </ItemGroup>
   <ItemGroup>

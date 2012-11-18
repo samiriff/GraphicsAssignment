@@ -57,6 +57,12 @@
     <ClInclude Include="VerticalSlider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Wind.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
