@@ -24,6 +24,7 @@ public:
 	void setRateOfChange(float rate);
 
 	void update();
+	void reset();
 };
 
 Wind::Wind(float limit, float rate, bool isInc)
@@ -57,6 +58,14 @@ void Wind::update()
 		speed -= sin(rateOfChange);
 
 	if(abs(speed) >= limit)
+		isIncreasing = !isIncreasing;
+}
+
+void Wind::reset()
+{
+	speed = 0;
+
+	if(rand() % 2)
 		isIncreasing = !isIncreasing;
 }
 

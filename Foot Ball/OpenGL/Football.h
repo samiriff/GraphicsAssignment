@@ -126,6 +126,8 @@ void Football::update()
 			currentOrigin.set(Y_AXIS, 0);
 			currentOrigin.set(Z_AXIS, 0);
 
+			time = 0;
+			wind->reset();
 			return;
 		}
 

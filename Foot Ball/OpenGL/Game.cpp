@@ -41,7 +41,7 @@ void init (void)
 
 	string pool = "Code Kshetra Inc. \nPresents\nA game that you've never played before\n\
 		and one that you may never play again\nSay Hello to\nTHE FOOTBALL GAME\nPress 'o' to continue...\
-		\nDeveloped by\nSamir, Satvik and Vaishakh";
+		\nDeveloped by Samir, Satvik and Vaishakh";
 	graphicString = new GraphicString(pool);	
 	Coordinates c(-100, 0, 0);
 	graphicString->append(c);
@@ -102,7 +102,7 @@ void displayIntro()
 		graphicString->append();
 		toAppend = 0;
 	}
-	toAppend += 0.5;
+	toAppend += 1;
 
 	static float projectionAngle = 100.0;
 
@@ -132,6 +132,10 @@ void display (void)
 		if(graphicString->isPoolNewLine())
 			camera.reset();
 		camera.slideRight();
+		camera.slideRight();
+		camera.slideRight();
+		camera.rotateAbout(X_AXIS, 0.05);
+		camera.rotateAbout(Y_AXIS, -0.05);
 	}
 	else
 	{
@@ -211,6 +215,7 @@ void keyboard (unsigned char key, int x, int y)
 		break;
 	case 'o':
 		isIntro = false;
+		camera.reset();
 		break;
 	case 27:
     	exit(0);
