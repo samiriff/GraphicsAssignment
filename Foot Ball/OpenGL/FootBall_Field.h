@@ -136,6 +136,7 @@ void FootBallField::initGoalPost(void)
 	glNewList(goalPostDisplayListIndex,GL_COMPILE); //compile the new list
 		glPushMatrix();
 			glColor3f(0,0,0);
+			glLineWidth(3.0);
 			glBegin(GL_LINE_LOOP);
 			glVertex3f(-1.5f, 0.0f, 0.0f);
 			glVertex3f(1.5f, 0.0f, 0.0f); 
@@ -143,6 +144,7 @@ void FootBallField::initGoalPost(void)
 			glVertex3f(-1.5f, 2.0f, 0.0f);
 			glEnd();
 			glColor3f(0,0,0);
+			glLineWidth(1.0);
 			for(float i = 2.0, j=-1.5; i>0 && j<=1.5; i-=0.1,j+=0.15)
 			{
 				glBegin(GL_LINES);

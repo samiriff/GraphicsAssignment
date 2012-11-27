@@ -9,7 +9,7 @@
 #include "GraphicString.h"
 using namespace std;
 
-#define FULL_SCREEN 1
+#define FULL_SCREEN 0
 
 Camera camera;				
 FootBallField fbField;
