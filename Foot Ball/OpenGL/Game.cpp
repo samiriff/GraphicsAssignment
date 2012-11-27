@@ -9,7 +9,7 @@
 #include "GraphicString.h"
 using namespace std;
 
-#define FULL_SCREEN 0
+#define FULL_SCREEN 1
 
 Camera camera;				
 FootBallField fbField;
@@ -129,13 +129,13 @@ void display (void)
 	if(isIntro)
 	{
 		displayIntro();	
-		if(graphicString->isPoolNewLine())
+		/*if(graphicString->isPoolNewLine())
 			camera.reset();
 		camera.slideRight();
 		camera.slideRight();
 		camera.slideRight();
 		camera.rotateAbout(X_AXIS, 0.05);
-		camera.rotateAbout(Y_AXIS, -0.05);
+		camera.rotateAbout(Y_AXIS, -0.05);*/
 	}
 	else
 	{
